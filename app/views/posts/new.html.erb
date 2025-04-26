@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h1 class="mb-4 fw-bold text-success">Create New Post</h1>
+
+  <div class="card shadow-sm p-4">
+  <%= form_with(model: @post, local: true, html: { multipart: true }) do |form| %>
+    <div class="mb-3">
+      <%= form.label :content %>
+      <%= form.text_area :content, class: "form-control" %>
+    </div>
+  
+    <div class="mb-3">
+      <%= form.label :image %>
+      <%= form.file_field :image, class: "form-control" %>
+    </div>
+    
+    <div class="mb-3">
+      <%= form.label :video, "Upload a video (MP4 only)" %>
+      <%= form.file_field :video, accept: "video/mp4", class: "form-control" %>
+    </div>
+
+    <%= form.submit "Create Post", class: "btn btn-success" %>
+  <% end %>
+  
+  </div>
+</div>

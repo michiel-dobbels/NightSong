@@ -1,0 +1,33 @@
+<h2>Search Results for "<%= @query %>"</h2>
+
+<h3>Matching Posts</h3>
+<% @posts.each do |post| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5><%= link_to post.user.full_name, user_path(post.user) %></h5>
+      <p><%= post.content %></p>
+      <%= link_to "View Post", post_path(post), class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<h3>Matching Users</h3>
+<% @users.each do |user| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5><%= link_to user.full_name, user_path(user) %></h5>
+      <p><%= user.email %></p>
+    </div>
+  </div>
+<% end %>
+
+<h3>Matching Replies</h3>
+<% @replies.each do |reply| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5><%= link_to reply.user.full_name, user_path(reply.user) %></h5>
+      <p><%= reply.content %></p>
+      <%= link_to 'View Reply', reply_path(reply), class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

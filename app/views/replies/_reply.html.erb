@@ -1,0 +1,42 @@
+<div class="card mb-2 p-2 reply-card position-relative">
+
+  <!-- Background Clickable Area -->
+  <%= link_to reply_path(reply), class: "position-absolute top-0 start-0 w-100 h-100", style: "z-index: 1;" do %>
+  <% end %>
+
+  <!-- Content goes above the stretched background link -->
+  <div class="position-relative" style="z-index: 2;">
+
+    <!-- Profile Info -->
+    
+    <div class="d-flex align-items-center mb-2">
+      <%= link_to user_path(reply.user), class: "d-flex align-items-center text-decoration-none position-relative z-2" do %>
+        <% if reply.user.profile_image.attached? %>
+          <%= image_tag reply.user.profile_image.variant(resize_to_fill: [30, 30]), class: "rounded-circle me-2" %>
+        <% end %>
+        <%= link_to reply.user.full_name.presence || "Unknown user", user_path(reply.user), class: "fw-bold text-primary text-decoration-none position-relative z-2" %>
+      <% end %>
+    </div>
+
+
+    <!-- Reply Content -->
+    <p><%= auto_link(h(reply.content), html: { target: "_blank", rel: "noopener" }).html_safe %></p>
+
+
+    <!-- Like + reply counts -->
+    <div class="interaction-counts mt-2">
+      <span>💙 Likes: <%= reply.likes.count %></span>
+      <span class="ms-3">💬 Replies: <%= reply.replies.count %></span>
+    </div>
+
+    <!-- Like button -->
+    <%= render partial: 'posts/like_button', locals: { likeable: reply } %>
+
+    <!-- Delete button -->
+    <% if reply.user == current_user %>
+      <%= button_to "Delete Reply", post_reply_path(reply.post, reply), method: :delete,
+          data: { confirm: "Are you sure you want to delete this reply?" } %>
+    <% end %>
+
+  </div>
+</div>

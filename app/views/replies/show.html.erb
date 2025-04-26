@@ -1,0 +1,115 @@
+<div class="card shadow-sm position-relative">
+      <div class="card-body">
+
+        <!-- Profile image and username linked to profile -->
+        <%= link_to user_path(@post.user), class: "d-flex align-items-center text-decoration-none position-relative", style: "z-index: 3;" do %>
+          <% if @post.user.profile_image.attached? %>
+            <%= image_tag @post.user.profile_image.variant(resize_to_fill: [30, 30]), class: "rounded-circle me-2" %>
+          <% end %>
+          <span class="fw-bold text-primary"><%= @post.user.full_name.presence || "Unknown user" %></span>
+        <% end %>
+
+        <!-- Time since posted -->
+        <p class="text-muted small mb-2"><%= time_ago_in_words(@post.created_at) %> ago</p>
+
+        <!-- Hidden stretched link to the post -->
+        <%= link_to post_path(@post), class: "stretched-link text-decoration-none" do %>
+        <% end %>
+
+        <!-- Post content -->
+        <p><%= auto_link(h(reply.content), html: { target: "_blank", rel: "noopener" }).html_safe %>
+
+</p>
+
+
+        <!-- Post image (if attached) -->
+        <% if @post.image.attached? %>
+          <%= image_tag @post.image.variant(resize_to_limit: [600, 600]), class: "post-image mb-2" %>
+        <% end %>
+
+        <!-- Like count and replies -->
+        <div class="interaction-counts mt-2">
+          <span id="like-count-<%= @post.id %>">💚 Likes: <%= @post.likes.count %></span>
+          <span class="ms-3">💬 Replies: <%= @post.replies.count %></span>
+        </div>
+
+      </div> <!-- end card-body -->
+
+      <!-- Like button -->
+      <div class="card-footer bg-white border-0">
+      <%= render partial: 'posts/like_button', locals: { likeable: @post } %>
+
+
+      </div>
+
+    </div>
+
+  <% @parent_chain.each do |parent_reply| %>
+    <div class="card reply-card mb-2 position-relative">
+      <%= link_to reply_path(parent_reply), class: "stretched-link text-decoration-none" do %>
+        <div class="card-body text-dark">
+        <%= link_to user_path(parent_reply.user), class: "d-flex align-items-center text-decoration-none position-relative" do %>
+          <% if parent_reply.user.profile_image.attached? %>
+            <%= image_tag parent_reply.user.profile_image.variant(resize_to_fill: [30, 30]), class: "rounded-circle me-2" %>
+          <% end %>
+          <span class="fw-bold text-primary"><%= parent_reply.user.full_name.presence || "Unknown user" %></span>
+        <% end %>
+        
+          <p><%= parent_reply.content %></p>
+
+          <div class="interaction-counts mb-2">
+            <span>❤️ Likes: <%= parent_reply.likes.count %></span>
+            <span class="ms-3">💬 Replies: <%= parent_reply.replies.count %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+    
+  
+
+<div class="card mb-3 position-relative reply-card">
+    <div class="card-body text-dark">
+    <%= link_to user_path(@reply.user), class: "d-flex align-items-center text-decoration-none position-relative" do %>
+      <% if @reply.user.profile_image.attached? %>
+        <%= image_tag @reply.user.profile_image.variant(resize_to_fill: [30, 30]), class: "rounded-circle me-2" %>
+      <% end %>
+      <span class="fw-bold text-primary"><%= @reply.user.full_name.presence || "Unknown user" %></span>
+    <% end %>
+  
+    <p><%= @reply.content %></p>
+
+    <div class="interaction-counts mb-2">
+      <span>💚 Likes: <%= @reply.likes.count %></span>
+      <span class="ms-3">💬 Replies: <%= @reply.replies.count %></span>
+    </div>
+
+    <%= render partial: 'posts/like_button', locals: { likeable: @reply } %>
+
+    <!-- Place the stretched link as a child, not a wrapper -->
+    <%= link_to reply_path(@reply), class: "stretched-link text-decoration-none" do %>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+
+
+
+<h3>Reply to this reply</h3>
+
+<%= form_with(model: [@reply, Reply.new], local: true) do |form| %>
+  <div class="mb-3">
+    <%= form.text_area :content, placeholder: "Write a reply...", class: "form-control" %>
+  </div>
+  <%= form.submit "Post Reply", class: "btn btn-success" %>
+<% end %>
+
+<h3>Replies to this reply:</h3>
+
+<% @child_replies.each do |child_reply| %>
+  <%= render partial: 'replies/reply', locals: { reply: child_reply } %>
+<% end %>
+

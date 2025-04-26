@@ -1,0 +1,43 @@
+<div class="card mt-4">
+  <% if @user.cover_image.attached? %>
+    <%= image_tag @user.cover_image, class: "card-img-top", style: "object-fit: cover; height: 200px;" %>
+  <% end %>
+
+  <div class="card-body text-center">
+    <% if @user.profile_image.attached? %>
+      <%= image_tag @user.profile_image, class: "rounded-circle me-3", style: "width: 120px; height: 120px;" %>
+    <% end %>
+
+    <h3><%= @user.full_name.presence || "No name provided" %></h3>
+    <p class="text-muted"><%= mail_to @user.email %></p>
+    <p><%= @user.bio.presence || "No bio yet." %></p>
+
+    <% if current_user != @user %>
+      <% if current_user.following.include?(@user) %>
+        <%= button_to "Unfollow", follow_path(user_id: @user.id), method: :delete, class: "btn btn-danger" %>
+      <% else %>
+        <%= button_to "Follow", follows_path(user_id: @user.id), method: :post, class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+    <p class="text-muted">
+      <%= link_to "Followers: #{@follower_count}", user_followers_path(@user), class: "text-decoration-none" %>
+    </p>
+    <p class="text-muted">
+      <%= link_to "Following: #{@user.following.count}", user_following_path(@user), class: "text-decoration-none" %>
+    </p>
+
+
+  </div>
+</div>
+
+<div class="card mt-4">
+  <div class="card-body">
+    <h4 class="card-title">Posts by <%= @user.full_name.presence || @user.email %>:</h4>
+    <% @posts.each do |post| %>
+      <div class="mb-3">
+        <strong><%= time_ago_in_words(post.created_at) %> ago:</strong>
+        <p><%= post.content %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

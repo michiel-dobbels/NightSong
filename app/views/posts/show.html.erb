@@ -1,0 +1,83 @@
+      <div class="container mt-4">
+
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+          <%= link_to post_path(@post), class: "stretched-link position-absolute top-0 start-0 w-100 h-100", style: "z-index: 1;" do %>
+            <% end %>
+            
+
+            <h5 class="card-title fs-5"><%= raw(embed_youtube_links(h(@post.content))) %>
+
+
+
+
+            </h5>
+            <!-- Author Info -->
+            <div class="d-flex align-items-center mb-3">
+              <% if @post.user.profile_image.attached? %>
+                <%= image_tag @post.user.profile_image.variant(resize_to_fill: [40, 40]), class: "rounded-circle me-2", alt: @post.user.full_name %>
+              <% end %>
+              <div>
+                <div>
+                  <%= link_to @post.user.full_name, user_path(@post.user), class: "fw-semibold text-primary text-decoration-none" %>
+                </div>
+                <div class="text-muted small">
+                  <%= link_to @post.user.email, user_path(@post.user), class: "text-decoration-none" %>
+                </div>
+              </div>
+            </div>
+
+
+
+      <% if @post.image.attached? %>
+        <%= image_tag @post.image.variant(resize_to_limit: [600, 600]), class: "post-image img-fluid rounded", alt: "" %>
+      <% end %>
+
+      <% if @post.video.attached? %>
+        <video width="100%" controls class="rounded mb-3">
+          <source src="<%= url_for(@post.video) %>" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      <% end %>
+
+
+      <% if @post.user == current_user %>
+        <%= button_to "Delete Post", post_path(@post), method: :delete, data: { confirm: "Are you sure you want to delete this post?" }, class: "btn btn-danger mb-2" %>
+      <% end %>
+
+      <!-- ✅ Like count -->
+      <div class="interaction-counts">
+        <span id="like-count-<%= @post.id %>">💚 Likes: <%= @post.likes.count %></span><br>
+        <p><p>💬Replies: <%= @post.replies.count %></p>
+      </div>
+
+
+
+      <!-- ✅ Like / Unlike button (partial) -->
+      <%= render partial: 'like_button', locals: { likeable: @post } %>
+
+
+              
+    </div>
+  </div>
+
+  <h4 class="fw-bold text-success">Replies</h4>
+
+  <div class="card reply-card shadow-sm p-4 mb-4", style:"cursor: pointer;"
+" >
+    <%= form_with(model: [@post, Reply.new], local: true) do |form| %>
+      <div class="mb-3">
+        <%= form.text_area :content, class: "form-control", placeholder: "Write a reply..." %>
+      </div>
+      <%= form.submit "Post Reply", class: "btn btn-outline-success" %>
+    <% end %>
+  </div>
+
+  <% @post.replies.where(parent_id: nil).each do |reply| %>
+    <%= render partial: 'replies/reply', locals: { reply: reply } %>
+  <% end %>
+  
+
+  <%= link_to "Back to Posts", posts_path, class: "btn btn-outline-success mt-3 fw-semibold" %>
+
+</div>

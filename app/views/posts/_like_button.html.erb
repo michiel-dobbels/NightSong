@@ -1,0 +1,17 @@
+<% liked = likeable.likes.exists?(user: current_user) %>
+<% like = likeable.likes.find_by(user: current_user) %>
+
+<div class="like-wrapper">
+  <button
+    class="btn btn-outline-danger like-toggle-button"
+    data-likeable-id="<%= likeable.id %>"
+    data-likeable-type="<%= likeable.class.name %>"
+    data-liked="<%= liked %>"
+    data-like-id="<%= like&.id %>"
+    data-action="<%= liked ? 'unlike' : 'like' %>"
+    data-turbo="false">
+    <%= liked ? "💔 Unlike" : "❤️ Like" %>
+  </button>
+
+  <span class="like-count"><%= likeable.likes.count %></span>
+</div>
