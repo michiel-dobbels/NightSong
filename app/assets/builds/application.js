@@ -24318,6 +24318,9 @@
         alert(err.error || "Failed to create reply.");
       }
     };
+    const navigateToReply = (id) => {
+      window.location.href = `/replies/${id}`;
+    };
     return /* @__PURE__ */ import_react4.default.createElement("div", null, /* @__PURE__ */ import_react4.default.createElement("form", { onSubmit: handleSubmit }, /* @__PURE__ */ import_react4.default.createElement(
       "textarea",
       {
@@ -24326,33 +24329,50 @@
         value: newReply,
         onChange: (e) => setNewReply(e.target.value)
       }
-    ), /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-outline-success" }, "Post Reply")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "mt-3" }, replies.length === 0 ? /* @__PURE__ */ import_react4.default.createElement("p", { className: "text-muted" }, "No replies yet.") : replies.map((reply) => /* @__PURE__ */ import_react4.default.createElement("div", { key: reply.id, className: "card mb-2", style: { cursor: "pointer" }, onClick: () => window.location.href = `/replies/${reply.id}` }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "card-body" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "d-flex justify-content-between align-items-center mb-1" }, /* @__PURE__ */ import_react4.default.createElement(
-      "a",
+    ), /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-outline-success" }, "Post Reply")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "mt-3" }, replies.length === 0 ? /* @__PURE__ */ import_react4.default.createElement("p", { className: "text-muted" }, "No replies yet.") : replies.map((reply) => /* @__PURE__ */ import_react4.default.createElement("div", { key: reply.id, className: "card mb-2" }, /* @__PURE__ */ import_react4.default.createElement(
+      "div",
       {
-        href: `/users/${reply.user_id}`,
-        className: "fw-semibold text-primary text-decoration-none",
-        onClick: (e) => e.stopPropagation()
+        className: "card-body",
+        onClick: () => navigateToReply(reply.id)
       },
-      reply.user_name
-    ), /* @__PURE__ */ import_react4.default.createElement("small", { className: "text-muted" }, timeAgo(reply.created_at))), /* @__PURE__ */ import_react4.default.createElement("p", { className: "mb-0" }, reply.content), /* @__PURE__ */ import_react4.default.createElement(
-      LikeButton,
-      {
-        postId,
-        replyId: reply.id,
-        initialLiked: reply.liked_by_current_user,
-        initialLikesCount: reply.likes_count
-      }
-    ), reply.user_id === currentUserId && /* @__PURE__ */ import_react4.default.createElement(
-      "button",
-      {
-        className: "btn btn-sm btn-danger mt-2",
-        onClick: (e) => {
-          e.stopPropagation();
-          handleDelete(reply.id);
-        }
-      },
-      "\u{1F5D1} Delete"
-    ))))));
+      /* @__PURE__ */ import_react4.default.createElement("div", { className: "d-flex justify-content-between align-items-center mb-1" }, /* @__PURE__ */ import_react4.default.createElement(
+        "a",
+        {
+          href: `/users/${reply.user_id}`,
+          className: "fw-semibold text-primary text-decoration-none",
+          onClick: (e) => e.stopPropagation()
+        },
+        reply.user_name
+      ), /* @__PURE__ */ import_react4.default.createElement("small", { className: "text-muted" }, timeAgo(reply.created_at))),
+      /* @__PURE__ */ import_react4.default.createElement("p", { className: "mb-0" }, reply.content),
+      /* @__PURE__ */ import_react4.default.createElement(
+        "div",
+        {
+          className: "d-flex align-items-center gap-2 mt-2",
+          onClick: (e) => e.stopPropagation()
+        },
+        /* @__PURE__ */ import_react4.default.createElement(
+          LikeButton,
+          {
+            postId,
+            replyId: reply.id,
+            initialLiked: reply.liked_by_current_user,
+            initialLikesCount: reply.likes_count
+          }
+        ),
+        reply.user_id === currentUserId && /* @__PURE__ */ import_react4.default.createElement(
+          "button",
+          {
+            className: "btn btn-sm btn-danger",
+            onClick: (e) => {
+              e.stopPropagation();
+              handleDelete(reply.id);
+            }
+          },
+          "\u{1F5D1} Delete"
+        )
+      )
+    )))));
   }
   var ReplyThread_default = ReplyThread;
 

@@ -5,7 +5,6 @@ function timeAgo(dateString) {
   const now = new Date();
   const posted = new Date(dateString);
   const diff = Math.floor((now - posted) / 1000);
-
   if (diff < 60) return `${diff}s ago`;
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
@@ -68,6 +67,10 @@ function ReplyThread({ postId, initialReplies, currentUserId }) {
     }
   };
 
+  const navigateToReply = (id) => {
+    window.location.href = `/replies/${id}`;
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -85,8 +88,11 @@ function ReplyThread({ postId, initialReplies, currentUserId }) {
           <p className="text-muted">No replies yet.</p>
         ) : (
           replies.map((reply) => (
-            <div key={reply.id} className="card mb-2" style={{ cursor: "pointer" }} onClick={() => (window.location.href = `/replies/${reply.id}`)}>
-              <div className="card-body">
+            <div key={reply.id} className="card mb-2">
+              <div
+                className="card-body"
+                onClick={() => navigateToReply(reply.id)}
+              >
                 <div className="d-flex justify-content-between align-items-center mb-1">
                   <a
                     href={`/users/${reply.user_id}`}
@@ -97,28 +103,32 @@ function ReplyThread({ postId, initialReplies, currentUserId }) {
                   </a>
                   <small className="text-muted">{timeAgo(reply.created_at)}</small>
                 </div>
+
                 <p className="mb-0">{reply.content}</p>
 
-                {/* ❤️ Like Button Here */}
-                <LikeButton
-                  postId={postId}
-                  replyId={reply.id}
-                  initialLiked={reply.liked_by_current_user}
-                  initialLikesCount={reply.likes_count}
-                />
+                <div
+                  className="d-flex align-items-center gap-2 mt-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <LikeButton
+                    postId={postId}
+                    replyId={reply.id}
+                    initialLiked={reply.liked_by_current_user}
+                    initialLikesCount={reply.likes_count}
+                  />
 
-                {/* 🗑️ Optional Delete Button */}
-                {reply.user_id === currentUserId && (
-                  <button
-                    className="btn btn-sm btn-danger mt-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(reply.id);
-                    }}
-                  >
-                    🗑 Delete
-                  </button>
-                )}
+                  {reply.user_id === currentUserId && (
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(reply.id);
+                      }}
+                    >
+                      🗑 Delete
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))
