@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  barable: one
+  barable_type: Barable
+
+two:
+  user: two
+  barable: two
+  barable_type: Barable

@@ -1,0 +1,9 @@
+<h1 class="fw-bold text-success mb-4">Following Feed</h1>
+
+<% if @posts.present? %>
+  <% @posts.each do |post| %>
+    <%= render partial: 'posts/post', locals: { post: post } %>
+  <% end %>
+<% else %>
+  <p>You're not following anyone yet or they haven't posted.</p>
+<% end %>

@@ -1,0 +1,7 @@
+const likeButton = document.querySelector(`#like-button-<%= @post.id %>`);
+likeButton.outerHTML = `<%= j(render partial: 'posts/like_button', locals: { post: @post }) %>`;
+
+
+// Update like count
+const likeCount = document.querySelector('#like-count-<%= @post.id %>');
+likeCount.textContent = 'Likes: <%= @post.likes.count %>';

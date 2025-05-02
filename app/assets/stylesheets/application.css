@@ -1,0 +1,253 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+ input {
+    margin-bottom: 10px;
+ }
+
+ .card:hover {
+   background-color: #f8f9fa;
+   cursor: pointer;
+ }
+ 
+ /* Center the container */
+ .container {
+  max-width: 90%;
+  width: 1050px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+
+/* Adjust card width */
+.card {
+  width: 100%;
+  margin-bottom: 0px;
+  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-body{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Optional: improve button spacing */
+.like-toggle-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+/* Red outline for Like button */
+.btn-like-outline {
+  border: 1px solid red;
+  color: red;
+}
+
+/* Grey outline for Unlike button */
+.btn-unlike-outline {
+  border: 1px solid grey;
+  color: grey;
+}
+
+.interaction-counts {
+  display: flex;
+  align-items: baseline; /* <-- change to baseline */
+  margin-top: 10px;
+}
+
+.interaction-counts span {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  line-height: 1; /* Optional: tighten up spacing */
+}
+
+.interaction-counts i {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+
+.reply-card {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reply-card:hover {
+  background-color: #f8f9fa;
+}
+
+.post-image {
+  border-radius: 12px;
+}
+
+/* Ensure full card clickability */
+/* Disable pointer events globally inside card-body (for clickable cards) */
+
+
+/* But allow interactive elements to work! */
+.card .card-body input,
+.card .card-body textarea,
+.card .card-body button,
+.card .card-body select,
+.card .card-body label {
+  pointer-events: auto;
+}
+
+/* And allow stretched links to work */
+.card .card-body .stretched-link {
+  pointer-events: auto;
+}
+
+
+
+.card .card-body {
+  position: relative;
+}
+
+
+.card:hover {
+  background-color: #f8f9fa; /* Light gray hover effect */
+  cursor: pointer;
+}
+
+
+/* Ensure full card clickability for reply cards */
+.reply-card * {
+  pointer-events: none;
+}
+
+.reply-card a {
+  pointer-events: auto;
+  z-index: 2;
+  position: relative;
+}
+
+
+.reply-card .stretched-link {
+  pointer-events: auto;
+}
+
+
+.reply-card:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* subtle shadow */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reply-card {
+  position: relative;
+}
+
+.reply-card * {
+  pointer-events: none;
+}
+
+.reply-card .stretched-link,
+.reply-card .btn,
+.reply-card input,
+.reply-card textarea,
+.reply-card button,
+.reply-card select,
+.reply-card label {
+  pointer-events: auto;
+}
+
+
+.stretched-link {
+  z-index: 1;
+}
+
+.reply-card *:not(.stretched-link),
+.card-body *:not(.stretched-link) {
+  position: relative;
+  z-index: 2;
+}
+
+
+.card-body.stretched-link {
+  pointer-events: auto;
+  padding-bottom: 0;
+  bottom: auto;
+}
+
+.interaction-counts {
+  margin-top: 0.5rem;
+  font-size: 16px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.card-footer {
+  position: relative;
+  z-index: 2;
+  background-color: transparent;
+}
+
+.embed-responsive {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.embed-responsive-16by9::before {
+  display: block;
+  content: "";
+   /* Increase from 56.25% (16:9 ratio) to something taller */
+}
+
+.embed-responsive-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+
+.has-youtube iframe {
+  height: 450px; /* Increase this from 315px or whatever you had */
+}
+
+.card-body {
+  position: relative;
+}
+
+.star {
+  font-size: 2rem;
+  color: lightgray;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.star.hovered,
+.star.selected {
+  color: #ffcf07;
+}
+
+.star-rating-display i {
+  font-size: 2rem;
+  margin: 0 0.15rem;
+}
+
+
+.hover-shadow:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  cursor: pointer;
+}

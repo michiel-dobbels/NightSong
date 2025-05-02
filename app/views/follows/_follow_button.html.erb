@@ -1,0 +1,5 @@
+<% if current_user.following?(@entity) %>
+  <%= button_to "Unfollow", unfollow_path(@entity), method: :delete, class: "btn btn-outline-danger" %>
+<% else %>
+  <%= button_to "Follow", follow_path(@entity), method: :post, class: "btn btn-success" %>
+<% end %>
